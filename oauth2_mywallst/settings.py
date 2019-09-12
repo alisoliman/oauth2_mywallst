@@ -28,7 +28,7 @@ if os.path.isfile(dotenv_file):
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5#x5s6!jx6as9nuxh)=wgaz+nj7w5)@k65=s0+k^yap)wqjim='
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -153,3 +153,4 @@ AUTHENTICATION_BACKENDS = (
 )
 
 django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']

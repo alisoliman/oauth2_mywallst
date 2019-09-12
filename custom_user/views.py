@@ -1,9 +1,17 @@
+import os
+
 import requests
+from django.conf.global_settings import DEBUG
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .serializers import CreateUserSerializer
+
+if DEBUG:
+    URL = 'http://0.0.0.0:8000/'
+else:
+    URL = os.environ['PROD_URL']
 
 CLIENT_ID = 'fjSQ33BiOt53qudiFmDFO813c772AH6CRsV9KIVQ'
 CLIENT_SECRET = 'jPM6ZPnlt9Avp3H9LL6Bv6YOHbNlZ4D1Dgi65NQFB16Qpo1GPUejrIXISOO6ewgGkcYN6YQs2cBhCF2buSjnSxarVXVPDdozVW41kr4ooMcNYfNvTUhar5qOOjoSfZDQ'
@@ -24,7 +32,7 @@ def register(request):
         serializer.save()
         # Then we get a token for the created user.
         # This could be done differentley
-        r = requests.post('http://0.0.0.0:8000/o/token/',
+        r = requests.post(URL + 'o/token/',
                           data={
                               'grant_type': 'password',
                               'username': request.data['email'],
