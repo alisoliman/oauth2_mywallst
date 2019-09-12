@@ -5,17 +5,11 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from oauth2_mywallst.settings import DEBUG
 from .serializers import CreateUserSerializer
 
-if DEBUG:
-    URL = 'http://0.0.0.0:8000/'
-    CLIENT_ID = 'fjSQ33BiOt53qudiFmDFO813c772AH6CRsV9KIVQ'
-    CLIENT_SECRET = 'jPM6ZPnlt9Avp3H9LL6Bv6YOHbNlZ4D1Dgi65NQFB16Qpo1GPUejrIXISOO6ewgGkcYN6YQs2cBhCF2buSjnSxarVXVPDdozVW41kr4ooMcNYfNvTUhar5qOOjoSfZDQ'
-else:
-    URL = os.environ['PROD_URL']
-    CLIENT_ID = os.environ['CLIENT_ID']
-    CLIENT_SECRET = os.environ['CLIENT_SECRET']
+URL = os.environ['PROD_URL']
+CLIENT_ID = os.environ['CLIENT_ID']
+CLIENT_SECRET = os.environ['CLIENT_SECRET']
 
 
 @api_view(['POST'])
