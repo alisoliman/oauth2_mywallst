@@ -1,20 +1,21 @@
 import os
 
 import requests
-from django.conf.global_settings import DEBUG
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from oauth2_mywallst.settings import DEBUG
 from .serializers import CreateUserSerializer
 
 if DEBUG:
     URL = 'http://0.0.0.0:8000/'
+    CLIENT_ID = 'fjSQ33BiOt53qudiFmDFO813c772AH6CRsV9KIVQ'
+    CLIENT_SECRET = 'jPM6ZPnlt9Avp3H9LL6Bv6YOHbNlZ4D1Dgi65NQFB16Qpo1GPUejrIXISOO6ewgGkcYN6YQs2cBhCF2buSjnSxarVXVPDdozVW41kr4ooMcNYfNvTUhar5qOOjoSfZDQ'
 else:
     URL = os.environ['PROD_URL']
-
-CLIENT_ID = 'fjSQ33BiOt53qudiFmDFO813c772AH6CRsV9KIVQ'
-CLIENT_SECRET = 'jPM6ZPnlt9Avp3H9LL6Bv6YOHbNlZ4D1Dgi65NQFB16Qpo1GPUejrIXISOO6ewgGkcYN6YQs2cBhCF2buSjnSxarVXVPDdozVW41kr4ooMcNYfNvTUhar5qOOjoSfZDQ'
+    CLIENT_ID = os.environ['CLIENT_ID']
+    CLIENT_SECRET = os.environ['CLIENT_SECRET']
 
 
 @api_view(['POST'])
@@ -53,7 +54,7 @@ def token(request):
     {"username": "username", "password": "1234abcd"}
     '''
     r = requests.post(
-        'http://0.0.0.0:8000/o/token/',
+        URL + 'o/token/',
         data={
             'grant_type': 'password',
             'username': request.data['email'],
@@ -73,7 +74,7 @@ def refresh_token(request):
     {"refresh_token": "<token>"}
     '''
     r = requests.post(
-        'http://0.0.0.0:8000/o/token/',
+        URL + 'o/token/',
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
@@ -92,7 +93,7 @@ def revoke_token(request):
     {"token": "<token>"}
     '''
     r = requests.post(
-        'http://0.0.0.0:8000/o/revoke_token/',
+        URL + 'o/revoke_token/',
         data={
             'token': request.data['token'],
             'client_id': CLIENT_ID,
