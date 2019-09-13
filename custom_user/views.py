@@ -2,7 +2,7 @@ import os
 
 import requests
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
 from .serializers import CreateUserSerializer
@@ -80,7 +80,7 @@ def refresh_token(request):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAdminUser])
 def revoke_token(request):
     '''
     Method to revoke tokens.
